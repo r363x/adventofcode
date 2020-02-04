@@ -4,7 +4,6 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <string.h>
-#include <limits.h>
 
 bool clean_up_once(char* data);
 void remove_unit(char c, char* data);
