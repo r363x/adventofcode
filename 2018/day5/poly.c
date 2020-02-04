@@ -6,13 +6,24 @@
 #include <string.h>
 
 bool clean_up_once(char* data);
+void usage();
 
 int main(int argc, char *argv[])
 {
+
+    // Handle usage and command line flags
+    if (argc != 3)
+        usage();
+    if (strncmp(argv[1], "-f", 2))
+        usage();
+
+    // Read the input data filename
+	char* filename = argv[2];
+
+    // Declare variables for later use
 	FILE* fd;
 	struct stat file_info;
 	char* data;
-	char* filename = "input.dat";
 
 	// Open the input file for reading
 	fd = fopen(filename, "r");
@@ -99,3 +110,10 @@ bool clean_up_once(char* data)
 	return mod;
 }
 
+void usage()
+{
+    printf("Usage\n"
+           "--------\n"
+           "-f     specify input data filename\n");
+    exit(1);
+}
