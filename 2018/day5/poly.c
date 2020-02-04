@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 		data = realloc(data, sizeof(char) * strlen(data) + 1);
 
 	// Finally print the cleaned up data
-	printf("%s\n", data);
+	printf("Remaining units: %ld\n", strlen(data));
 
 	// Return the allocated memory to the system
 	free(data);
@@ -114,6 +114,6 @@ void usage()
 {
     printf("Usage\n"
            "--------\n"
-           "-f     specify input data filename\n");
+           "-f     input data filename\n\n");
     exit(1);
 }
