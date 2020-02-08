@@ -73,7 +73,6 @@ int main(int argc, char *argv[])
 
     // Temporary storage to be used in the following loop
     char* temp = malloc(sizeof(char) * strlen(data) + 1);
-    int j;
 
     // Aux vars
     int current, shortest;
