@@ -6,17 +6,20 @@ import (
     "os"
     "log"
     "strconv"
+    "flag"
+    "sort"
 )
 
-func main() {
+func parse_input(path string) ([]int, error) {
 
-    f, err := os.Open("input.dat")
+    elves := make([]int, 1)
+
+    f, err := os.Open(path)
     if err != nil {
-        log.Fatal(err)
+        return elves, err
     }
     defer f.Close()
 
-    elves := make([]int, 10)
 
     scanner := bufio.NewScanner(f)
 
@@ -27,7 +30,7 @@ func main() {
         if line != "" {
             curNum, err := strconv.Atoi(line)
             if err != nil {
-                log.Fatal(err)
+                return elves, err
             }
             curElf += curNum
         } else {
@@ -37,13 +40,18 @@ func main() {
     }
 
     if err := scanner.Err(); err != nil {
-		log.Fatal("reading line:", err)
+        return elves, err
 	}
+
+    return elves, nil
+}
+
+func part1(calories []int) {
 
     most := 0
     richest := 0
 
-    for i, c := range elves {
+    for i, c := range calories {
 
         if c > most {
             most = c
@@ -53,5 +61,45 @@ func main() {
 
     fmt.Println("Richest Elf:", richest)
     fmt.Println("Calories:", most)
+
+}
+
+func part2(calories *[]int) {
+
+    sort.Ints(*calories)
+
+    top3 := (*calories)[len(*calories)-3:]
+    sum := 0
+
+    for _, cal := range top3 {
+        sum += cal
+    }
+
+    fmt.Println(top3)
+    fmt.Println("Calories:", sum)
+
+}
+
+func main() {
+
+    flag_part := flag.Int("part", 0, "Which part of the task to execute (if more than one)")
+    flag.Parse()
+
+    switch *flag_part {
+    case 1:
+        calories, err := parse_input("input.dat")
+        if err != nil {
+            log.Fatal(err)
+        }
+        part1(calories)
+    case 2:
+        calories, err := parse_input("input.dat")
+        if err != nil {
+            log.Fatal(err)
+        }
+        part2(&calories)
+    default:
+        flag.Usage()
+    }
 
 }
